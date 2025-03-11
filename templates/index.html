@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Spam Classifier</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Spam Checker</h1>
+      <p>Enter a message below to check if it's spam or not.</p>
+      <form method="POST">
+        <textarea
+          name="message"
+          placeholder="Type your message here..."
+          required
+        ></textarea>
+        <button type="submit">Predict</button>
+      </form>
+      {% if prediction %}
+      <div class="result">
+        <p>
+          Prediction:
+          <span class="{{ 'spam' if prediction == 'Spam' else 'ham' }}"
+            >{{ prediction }}</span
+          >
+        </p>
+      </div>
+      {% endif %}
+    </div>
+  </body>
+</html>
