@@ -8,6 +8,9 @@ A simple **machine learning web app** that classifies SMS messages as **Spam or 
 - Flask web app for user interaction 
 
 ---
+## Colab Link
+https://colab.research.google.com/drive/1nnFDMksB7WwIJzj9pcn6aWtsbokjNcjA?usp=sharing#scrollTo=9t0dbTdAP-xW
+---
 ##  Project Structure  
 sms-spam-classifier  
 │── static/           
