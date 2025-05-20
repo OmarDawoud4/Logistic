@@ -28,6 +28,7 @@ cd Logistic
 ### **Train The Model**  
 ```bash
 python train_model.py
+python train_spam_models.py
 ```
 ### **Run the Flask App**
 ```bash
