@@ -3,38 +3,827 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Spam Classifier</title>
+    <title>Spam Detection System</title>
     <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='style.css') }}"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap"
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/static/style.css" />
+    <style>
+      body {
+        font-family: "Poppins", sans-serif;
+        padding: 20px;
+        background-color: #f0f5ff;
+        color: #333;
+      }
+      .container {
+        max-width: 900px;
+        margin: 30px auto;
+        background-color: white;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        padding: 30px;
+      }
+      .app-header {
+        text-align: center;
+        margin-bottom: 30px;
+        padding-bottom: 20px;
+        border-bottom: 1px solid #eaeaea;
+      }
+      .app-title {
+        font-weight: 700;
+        color: #3a4f7a;
+        margin-bottom: 10px;
+      }
+      .app-subtitle {
+        color: #6c757d;
+        font-weight: 300;
+      }
+      .card {
+        margin-bottom: 20px;
+        border: none;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+        border-radius: 12px;
+        overflow: hidden;
+      }
+      .result-card {
+        display: none;
+        transition: all 0.4s ease;
+        margin-top: 25px;
+      }
+      .card-header {
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #eaeaea;
+        padding: 15px 20px;
+      }
+      .tab-content {
+        padding: 25px;
+        background-color: white;
+        border: 1px solid #eaeaea;
+        border-top: none;
+        border-radius: 0 0 12px 12px;
+      }
+      .nav-tabs {
+        border-bottom: 1px solid #eaeaea;
+      }
+      .nav-tabs .nav-link {
+        color: #6c757d;
+        font-weight: 500;
+        border: none;
+        padding: 12px 20px;
+        border-radius: 8px 8px 0 0;
+      }
+      .nav-tabs .nav-link.active {
+        color: #3a4f7a;
+        background-color: white;
+        border: 1px solid #eaeaea;
+        border-bottom: none;
+      }
+      .progress {
+        height: 25px;
+        border-radius: 50px;
+        background-color: #f0f0f0;
+        margin-bottom: 15px;
+      }
+      .progress-bar {
+        border-radius: 50px;
+        transition: width 0.6s ease;
+      }
+      .btn {
+        padding: 10px 20px;
+        border-radius: 8px;
+        font-weight: 500;
+        transition: all 0.3s ease;
+      }
+      .btn-primary {
+        background-color: #4e73df;
+        border-color: #4e73df;
+      }
+      .btn-primary:hover {
+        background-color: #3a5ccc;
+        border-color: #3a5ccc;
+      }
+      .btn-secondary {
+        background-color: #6c757d;
+        border-color: #6c757d;
+      }
+      .btn-outline-secondary {
+        color: #6c757d;
+        border-color: #d1d3e2;
+      }
+      .btn-outline-secondary:hover {
+        background-color: #f8f9fc;
+        color: #5a5c69;
+      }
+      textarea {
+        resize: vertical;
+        min-height: 150px;
+        border-radius: 8px;
+        border: 1px solid #d1d3e2;
+        padding: 12px;
+        font-size: 14px;
+        transition: border-color 0.3s ease;
+      }
+      textarea:focus {
+        border-color: #4e73df;
+        box-shadow: 0 0 0 0.25rem rgba(78, 115, 223, 0.25);
+      }
+      .form-label {
+        font-weight: 500;
+        color: #5a5c69;
+        margin-bottom: 8px;
+      }
+      .sample-buttons {
+        margin-top: 15px;
+        margin-bottom: 20px;
+      }
+      .action-buttons {
+        display: flex;
+        gap: 10px;
+        margin-top: 15px;
+      }
+      .verdict-icon {
+        font-size: 24px;
+        margin-right: 10px;
+      }
+      .verdict-spam {
+        color: #e74a3b;
+      }
+      .verdict-ham {
+        color: #1cc88a;
+      }
+      .loading-spinner {
+        display: none;
+        margin-left: 10px;
+      }
+      .history-section {
+        margin-top: 30px;
+        padding-top: 20px;
+        border-top: 1px solid #eaeaea;
+      }
+      .history-title {
+        font-weight: 600;
+        color: #3a4f7a;
+        margin-bottom: 15px;
+      }
+      .history-item {
+        padding: 10px 15px;
+        border-radius: 8px;
+        margin-bottom: 10px;
+        background-color: #f8f9fc;
+        border-left: 4px solid #4e73df;
+        font-size: 14px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+      }
+      .history-item:hover {
+        background-color: #eaecf4;
+      }
+      .history-item.spam {
+        border-left-color: #e74a3b;
+      }
+      .history-item.ham {
+        border-left-color: #1cc88a;
+      }
+      .tooltip-inner {
+        max-width: 300px;
+      }
+      @media (max-width: 768px) {
+        .container {
+          padding: 20px;
+          margin: 15px auto;
+        }
+        .action-buttons {
+          flex-direction: column;
+        }
+        .btn {
+          width: 100%;
+          margin-bottom: 10px;
+        }
+      }
+    </style>
   </head>
   <body>
     <div class="container">
-      <h1>Spam Checker</h1>
-      <p>Enter a message below to check if it's spam or not.</p>
-      <form method="POST">
-        <textarea
-          name="message"
-          placeholder="Type your message here..."
-          required
-        ></textarea>
-        <button type="submit">Predict</button>
-      </form>
-      {% if prediction %}
-      <div class="result">
-        <p>
-          Prediction:
-          <span class="{{ 'spam' if prediction == 'Spam' else 'ham' }}"
-            >{{ prediction }}</span
-          >
+      <div class="app-header">
+        <h1 class="app-title">
+          <i class="fas fa-shield-alt me-2"></i>Spam Detection System
+        </h1>
+        <p class="app-subtitle">
+          Analyze SMS messages and emails to detect potential spam
         </p>
       </div>
-      {% endif %}
+
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link active"
+            id="sms-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#sms"
+            type="button"
+            role="tab"
+            aria-controls="sms"
+            aria-selected="true"
+          >
+            <i class="fas fa-sms me-2"></i>SMS Spam Detection
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link"
+            id="email-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#email"
+            type="button"
+            role="tab"
+            aria-controls="email"
+            aria-selected="false"
+          >
+            <i class="fas fa-envelope me-2"></i>Email Spam Detection
+          </button>
+        </li>
+      </ul>
+
+      <div class="tab-content" id="myTabContent">
+        <!-- SMS Spam Detection -->
+        <div
+          class="tab-pane fade show active"
+          id="sms"
+          role="tabpanel"
+          aria-labelledby="sms-tab"
+        >
+          <div class="mb-3">
+            <label for="smsMessage" class="form-label"
+              >Enter SMS Message:</label
+            >
+            <textarea
+              class="form-control"
+              id="smsMessage"
+              rows="4"
+              placeholder="Type or paste an SMS message here..."
+            ></textarea>
+          </div>
+
+          <div class="sample-buttons">
+            <small class="text-muted">Try a sample:</small>
+            <button
+              class="btn btn-sm btn-outline-secondary sample-sms"
+              data-sample="Congratulations! You've won a free $1000 gift card. Click here to claim now: http://claim-prize.com"
+            >
+              Spam Sample
+            </button>
+            <button
+              class="btn btn-sm btn-outline-secondary sample-sms"
+              data-sample="Hi, can we reschedule our meeting to 3pm tomorrow? Thanks!"
+            >
+              Non-Spam Sample
+            </button>
+          </div>
+
+          <div class="action-buttons">
+            <button id="checkSmsBtn" class="btn btn-primary">
+              <i class="fas fa-search me-2"></i>Check SMS
+              <span
+                class="spinner-border spinner-border-sm loading-spinner"
+                id="smsSpinner"
+                role="status"
+                aria-hidden="true"
+              ></span>
+            </button>
+            <button id="clearSmsBtn" class="btn btn-outline-secondary">
+              <i class="fas fa-eraser me-2"></i>Clear
+            </button>
+          </div>
+
+          <div id="smsResult" class="card mt-4 result-card">
+            <div class="card-header">
+              <h5><i class="fas fa-chart-pie me-2"></i>Analysis Result</h5>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title" id="smsVerdict">
+                <span class="verdict-icon" id="smsVerdictIcon"></span>
+                <span id="smsVerdictText">Spam Verdict: </span>
+              </h5>
+              <p class="card-text">Spam Probability:</p>
+              <div class="progress mb-3">
+                <div
+                  id="smsProgressBar"
+                  class="progress-bar"
+                  role="progressbar"
+                  style="width: 0%"
+                  aria-valuenow="0"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                >
+                  0%
+                </div>
+              </div>
+              <div class="alert alert-info mt-3">
+                <i class="fas fa-info-circle me-2"></i>
+                <small
+                  >Our AI model analyzes text patterns commonly found in spam
+                  messages, such as promotional language, urgency, and
+                  suspicious links.</small
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="history-section" id="smsHistory">
+            <h5 class="history-title">
+              <i class="fas fa-history me-2"></i>Recent SMS Checks
+            </h5>
+            <div class="history-items" id="smsHistoryItems">
+              <!-- History items will be added here dynamically -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Email Spam Detection -->
+        <div
+          class="tab-pane fade"
+          id="email"
+          role="tabpanel"
+          aria-labelledby="email-tab"
+        >
+          <div class="mb-3">
+            <label for="emailContent" class="form-label"
+              >Enter Email Content:</label
+            >
+            <textarea
+              class="form-control"
+              id="emailContent"
+              rows="6"
+              placeholder="Type or paste the email content here..."
+            ></textarea>
+          </div>
+
+          <div class="sample-buttons">
+            <small class="text-muted">Try a sample:</small>
+            <button
+              class="btn btn-sm btn-outline-secondary sample-email"
+              data-sample="Dear User,
+
+We have detected unusual activity in your account. To protect your information, we have temporarily suspended access.
+
+Please verify your identity by clicking the secure link below:
+
+👉 Verify Now
+
+Failure to respond within 24 hours may result in permanent suspension of your account.
+
+Thank you for your cooperation,
+Secure Verification Team
+© 2025 All Rights Reserved."
+            >
+              Spam Sample
+            </button>
+            <button
+              class="btn btn-sm btn-outline-secondary sample-email"
+              data-sample="Hi Team, Please find attached the quarterly report for Q2. Let me know if you have any questions or need additional information. Best regards, John"
+            >
+              Non-Spam Sample
+            </button>
+          </div>
+
+          <div class="action-buttons">
+            <button id="checkEmailBtn" class="btn btn-primary">
+              <i class="fas fa-search me-2"></i>Check Email
+              <span
+                class="spinner-border spinner-border-sm loading-spinner"
+                id="emailSpinner"
+                role="status"
+                aria-hidden="true"
+              ></span>
+            </button>
+            <button id="clearEmailBtn" class="btn btn-outline-secondary">
+              <i class="fas fa-eraser me-2"></i>Clear
+            </button>
+          </div>
+
+          <div id="emailResult" class="card mt-4 result-card">
+            <div class="card-header">
+              <h5><i class="fas fa-chart-pie me-2"></i>Analysis Result</h5>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title" id="emailVerdict">
+                <span class="verdict-icon" id="emailVerdictIcon"></span>
+                <span id="emailVerdictText">Spam Verdict: </span>
+              </h5>
+              <p class="card-text">Spam Probability:</p>
+              <div class="progress mb-3">
+                <div
+                  id="emailProgressBar"
+                  class="progress-bar"
+                  role="progressbar"
+                  style="width: 0%"
+                  aria-valuenow="0"
+                  aria-valuemin="0"
+                  aria-valuemax="100"
+                >
+                  0%
+                </div>
+              </div>
+              <div class="alert alert-info mt-3">
+                <i class="fas fa-info-circle me-2"></i>
+                <small
+                  >Our email spam detection analyzes various features including
+                  word frequency, character patterns, and capitalization to
+                  identify potential spam.</small
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="history-section" id="emailHistory">
+            <h5 class="history-title">
+              <i class="fas fa-history me-2"></i>Recent Email Checks
+            </h5>
+            <div class="history-items" id="emailHistoryItems">
+              <!-- History items will be added here dynamically -->
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Initialize tooltips
+        const tooltipTriggerList = [].slice.call(
+          document.querySelectorAll('[data-bs-toggle="tooltip"]')
+        );
+        tooltipTriggerList.map(function (tooltipTriggerEl) {
+          return new bootstrap.Tooltip(tooltipTriggerEl);
+        });
+
+        // SMS history storage
+        let smsHistory = JSON.parse(localStorage.getItem("smsHistory")) || [];
+        let emailHistory =
+          JSON.parse(localStorage.getItem("emailHistory")) || [];
+
+        // Limit history to 5 items
+        const MAX_HISTORY_ITEMS = 5;
+
+        // Sample buttons for SMS
+        document.querySelectorAll(".sample-sms").forEach((button) => {
+          button.addEventListener("click", function () {
+            document.getElementById("smsMessage").value =
+              this.getAttribute("data-sample");
+          });
+        });
+
+        // Sample buttons for Email
+        document.querySelectorAll(".sample-email").forEach((button) => {
+          button.addEventListener("click", function () {
+            document.getElementById("emailContent").value =
+              this.getAttribute("data-sample");
+          });
+        });
+
+        // Clear buttons
+        document
+          .getElementById("clearSmsBtn")
+          .addEventListener("click", function () {
+            document.getElementById("smsMessage").value = "";
+            document.getElementById("smsResult").style.display = "none";
+          });
+
+        document
+          .getElementById("clearEmailBtn")
+          .addEventListener("click", function () {
+            document.getElementById("emailContent").value = "";
+            document.getElementById("emailResult").style.display = "none";
+          });
+
+        // Render SMS history
+        function renderSmsHistory() {
+          const historyContainer = document.getElementById("smsHistoryItems");
+          historyContainer.innerHTML = "";
+
+          if (smsHistory.length === 0) {
+            historyContainer.innerHTML =
+              '<p class="text-muted">No history yet</p>';
+            return;
+          }
+
+          smsHistory.forEach((item, index) => {
+            const historyItem = document.createElement("div");
+            historyItem.className = `history-item ${
+              item.isSpam ? "spam" : "ham"
+            }`;
+            historyItem.setAttribute("data-bs-toggle", "tooltip");
+            historyItem.setAttribute("data-bs-placement", "top");
+            historyItem.setAttribute("title", item.message);
+
+            // Truncate message if too long
+            const truncatedMessage =
+              item.message.length > 50
+                ? item.message.substring(0, 50) + "..."
+                : item.message;
+
+            historyItem.innerHTML = `
+              <i class="fas ${
+                item.isSpam
+                  ? "fa-exclamation-triangle text-danger"
+                  : "fa-check-circle text-success"
+              } me-2"></i>
+              ${truncatedMessage}
+              <span class="float-end badge ${
+                item.isSpam ? "bg-danger" : "bg-success"
+              }">${(item.probability * 100).toFixed(1)}%</span>
+            `;
+
+            historyItem.addEventListener("click", function () {
+              document.getElementById("smsMessage").value = item.message;
+            });
+
+            historyContainer.appendChild(historyItem);
+          });
+
+          // Initialize tooltips for new elements
+          const tooltips = [].slice.call(
+            document.querySelectorAll('[data-bs-toggle="tooltip"]')
+          );
+          tooltips.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+          });
+        }
+
+        // Render Email history
+        function renderEmailHistory() {
+          const historyContainer = document.getElementById("emailHistoryItems");
+          historyContainer.innerHTML = "";
+
+          if (emailHistory.length === 0) {
+            historyContainer.innerHTML =
+              '<p class="text-muted">No history yet</p>';
+            return;
+          }
+
+          emailHistory.forEach((item, index) => {
+            const historyItem = document.createElement("div");
+            historyItem.className = `history-item ${
+              item.isSpam ? "spam" : "ham"
+            }`;
+            historyItem.setAttribute("data-bs-toggle", "tooltip");
+            historyItem.setAttribute("data-bs-placement", "top");
+            historyItem.setAttribute("title", item.message);
+
+            // Truncate message if too long
+            const truncatedMessage =
+              item.message.length > 50
+                ? item.message.substring(0, 50) + "..."
+                : item.message;
+
+            historyItem.innerHTML = `
+              <i class="fas ${
+                item.isSpam
+                  ? "fa-exclamation-triangle text-danger"
+                  : "fa-check-circle text-success"
+              } me-2"></i>
+              ${truncatedMessage}
+              <span class="float-end badge ${
+                item.isSpam ? "bg-danger" : "bg-success"
+              }">${(item.probability * 100).toFixed(1)}%</span>
+            `;
+
+            historyItem.addEventListener("click", function () {
+              document.getElementById("emailContent").value = item.message;
+            });
+
+            historyContainer.appendChild(historyItem);
+          });
+
+          // Initialize tooltips for new elements
+          const tooltips = [].slice.call(
+            document.querySelectorAll('[data-bs-toggle="tooltip"]')
+          );
+          tooltips.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl);
+          });
+        }
+
+        // Add to SMS history
+        function addToSmsHistory(message, isSpam, probability) {
+          smsHistory.unshift({
+            message,
+            isSpam,
+            probability,
+            timestamp: new Date().toISOString(),
+          });
+
+          // Limit history size
+          if (smsHistory.length > MAX_HISTORY_ITEMS) {
+            smsHistory = smsHistory.slice(0, MAX_HISTORY_ITEMS);
+          }
+
+          localStorage.setItem("smsHistory", JSON.stringify(smsHistory));
+          renderSmsHistory();
+        }
+
+        // Add to Email history
+        function addToEmailHistory(message, isSpam, probability) {
+          emailHistory.unshift({
+            message,
+            isSpam,
+            probability,
+            timestamp: new Date().toISOString(),
+          });
+
+          // Limit history size
+          if (emailHistory.length > MAX_HISTORY_ITEMS) {
+            emailHistory = emailHistory.slice(0, MAX_HISTORY_ITEMS);
+          }
+
+          localStorage.setItem("emailHistory", JSON.stringify(emailHistory));
+          renderEmailHistory();
+        }
+
+        // Render initial history
+        renderSmsHistory();
+        renderEmailHistory();
+
+        // SMS Detection
+        document
+          .getElementById("checkSmsBtn")
+          .addEventListener("click", function () {
+            const message = document.getElementById("smsMessage").value.trim();
+            if (!message) {
+              alert("Please enter an SMS message");
+              return;
+            }
+
+            // Show loading spinner
+            document.getElementById("smsSpinner").style.display =
+              "inline-block";
+
+            fetch("/predict_sms", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ message: message }),
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                // Hide loading spinner
+                document.getElementById("smsSpinner").style.display = "none";
+
+                if (data.status === "success") {
+                  const probability = data.spam_probability * 100;
+                  const isSpam = data.is_spam;
+
+                  // Update verdict text and icon
+                  document.getElementById(
+                    "smsVerdictText"
+                  ).textContent = `Spam Verdict: ${
+                    isSpam ? "SPAM" : "NOT SPAM"
+                  }`;
+
+                  const verdictIcon = document.getElementById("smsVerdictIcon");
+                  if (isSpam) {
+                    verdictIcon.className =
+                      "verdict-icon verdict-spam fas fa-exclamation-triangle";
+                  } else {
+                    verdictIcon.className =
+                      "verdict-icon verdict-ham fas fa-check-circle";
+                  }
+
+                  const progressBar = document.getElementById("smsProgressBar");
+                  progressBar.style.width = `${probability}%`;
+                  progressBar.textContent = `${probability.toFixed(2)}%`;
+
+                  if (probability > 70) {
+                    progressBar.className = "progress-bar bg-danger";
+                  } else if (probability > 30) {
+                    progressBar.className = "progress-bar bg-warning";
+                  } else {
+                    progressBar.className = "progress-bar bg-success";
+                  }
+
+                  // Show result card with animation
+                  document.getElementById("smsResult").style.display = "block";
+
+                  // Add to history
+                  addToSmsHistory(message, isSpam, data.spam_probability);
+                } else {
+                  alert("Error: " + data.error);
+                }
+              })
+              .catch((error) => {
+                // Hide loading spinner
+                document.getElementById("smsSpinner").style.display = "none";
+                console.error("Error:", error);
+                alert(
+                  "An error occurred during the request. Please check the console."
+                );
+              });
+          });
+
+        // Email Detection
+        document
+          .getElementById("checkEmailBtn")
+          .addEventListener("click", function () {
+            const email = document.getElementById("emailContent").value.trim();
+            if (!email) {
+              alert("Please enter email content");
+              return;
+            }
+
+            // Show loading spinner
+            document.getElementById("emailSpinner").style.display =
+              "inline-block";
+
+            fetch("/predict_email", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({ email: email }),
+            })
+              .then((response) => response.json())
+              .then((data) => {
+                // Hide loading spinner
+                document.getElementById("emailSpinner").style.display = "none";
+
+                if (data.status === "success") {
+                  const probability = data.spam_probability * 100;
+                  const isSpam = data.is_spam;
+
+                  // Update verdict text and icon
+                  document.getElementById(
+                    "emailVerdictText"
+                  ).textContent = `Spam Verdict: ${
+                    isSpam ? "SPAM" : "NOT SPAM"
+                  }`;
+
+                  const verdictIcon =
+                    document.getElementById("emailVerdictIcon");
+                  if (isSpam) {
+                    verdictIcon.className =
+                      "verdict-icon verdict-spam fas fa-exclamation-triangle";
+                  } else {
+                    verdictIcon.className =
+                      "verdict-icon verdict-ham fas fa-check-circle";
+                  }
+
+                  const progressBar =
+                    document.getElementById("emailProgressBar");
+                  progressBar.style.width = `${probability}%`;
+                  progressBar.textContent = `${probability.toFixed(2)}%`;
+
+                  if (probability > 70) {
+                    progressBar.className = "progress-bar bg-danger";
+                  } else if (probability > 30) {
+                    progressBar.className = "progress-bar bg-warning";
+                  } else {
+                    progressBar.className = "progress-bar bg-success";
+                  }
+
+                  // Show result card with animation
+                  document.getElementById("emailResult").style.display =
+                    "block";
+
+                  // Add to history
+                  addToEmailHistory(email, isSpam, data.spam_probability);
+                } else {
+                  alert("Error: " + data.error);
+                }
+              })
+              .catch((error) => {
+                // Hide loading spinner
+                document.getElementById("emailSpinner").style.display = "none";
+                console.error("Error:", error);
+                alert(
+                  "An error occurred during the request. Please check the console."
+                );
+              });
+          });
+
+        // Add keyboard shortcuts
+        document.addEventListener("keydown", function (event) {
+          // Ctrl+Enter to submit the active form
+          if (event.ctrlKey && event.key === "Enter") {
+            const activeTab = document.querySelector(".tab-pane.active");
+            if (activeTab.id === "sms") {
+              document.getElementById("checkSmsBtn").click();
+            } else if (activeTab.id === "email") {
+              document.getElementById("checkEmailBtn").click();
+            }
+          }
+        });
+      });
+    </script>
   </body>
 </html>

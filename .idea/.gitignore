@@ -1,0 +1,91 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# PyInstaller
+# Usually contains a bunch of files that you don't want to commit
+dist/
+*.spec
+
+# Virtual environments
+venv/
+ENV/
+env/
+.venv/
+.ENV/
+.env/
+.venv/
+
+# pipenv
+pipfile.lock
+
+# poetry
+poetry.lock
+
+# pytest
+.cache/
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre
+.pyre/
+
+# PyCharm / VS Code
+.idea/
+.vscode/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints/
+
+# dotenv
+.env
+.env.*
+
+# MacOS
+.DS_Store
+
+# Logs
+*.log
+
+# SQLite database
+*.sqlite3
+
+# Test output
+htmlcov/
+coverage/
+
+# Others
+*.bak
+*.swp
+*.swo
