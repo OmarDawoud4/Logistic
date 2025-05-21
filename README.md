@@ -7,7 +7,7 @@ A simple **machine learning web app** that classifies SMS messages as **Spam or 
 
 This repository contains a Google Colab notebook that you can open and run directly in your browser.
 
-[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1nnFDMksB7WwIJzj9pcn6aWtsbokjNcjA?usp=sharing#scrollTo=9t0dbTdAP-xW)
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1wdd1aY86NNNNqxullQut1PVXgmFVjYn8#scrollTo=tBuVpLCQFofg)
 
 ---
 ## 🌐 Live Demo
