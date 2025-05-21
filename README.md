@@ -9,6 +9,11 @@ This repository contains a Google Colab notebook that you can open and run direc
 
 [![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1nnFDMksB7WwIJzj9pcn6aWtsbokjNcjA?usp=sharing#scrollTo=9t0dbTdAP-xW)
 
+---
+## 🌐 Live Demo
+🚀 Hosted at:
+[spam-classifier](https://spam-classifier.up.railway.app/)
+You can access and interact with the fraud detection modules directly through the hosted web interface.
 
 ---
 ## Features  
