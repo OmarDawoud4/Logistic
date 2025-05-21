@@ -107,6 +107,8 @@ The app will start running at local host
         <img src="https://github.com/ali-AbdEl-Rehem.png"   width="100px;" alt="" style="border-radius:50%"/>
         <br />
         <sub><b>Ali Abd Al Rehem</b></sub>
+        <br />
+      <sub>Backend Developer</sub>
       </a>
     </td>
     <td align="center">
@@ -114,6 +116,8 @@ The app will start running at local host
         <img src="https://github.com/omarwagih3.png"   width="100px;" alt="" style="border-radius:50%"/>
         <br />
         <sub><b>Omar Wagih</b></sub>
+        <br />
+      <sub>Frontend Developer</sub>
       </a>
     </td>
   </tr>
