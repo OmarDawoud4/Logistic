@@ -95,5 +95,26 @@ The app will start running at local host
       <br />
       <sub>Frontend Developer</sub>
     </td>
+     <td align="center">
+      <a href="https://github.com/ahmedmx1">
+        <img src="https://github.com/ahmedmx1.png"   width="100px;" alt="" style="border-radius:50%"/>
+        <br />
+        <sub><b>Ahmad Asal</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/ali-AbdEl-Rehem">
+        <img src="https://github.com/ali-AbdEl-Rehem.png"   width="100px;" alt="" style="border-radius:50%"/>
+        <br />
+        <sub><b>Ali Abd Al Rehem</b></sub>
+      </a>
+    </td>
+    <td align="center">
+      <a href="https://github.com/omarwagih3">
+        <img src="https://github.com/omarwagih3.png"   width="100px;" alt="" style="border-radius:50%"/>
+        <br />
+        <sub><b>Omar Wagih</b></sub>
+      </a>
+    </td>
   </tr>
 </table>
