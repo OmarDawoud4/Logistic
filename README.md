@@ -50,3 +50,50 @@ python app.py
 
 ```
 The app will start running at local host
+
+---
+👨‍💻 Contributors
+<table>
+  <tr>
+      <td align="center">
+      <a href="https://github.com/OmarDawoud4">
+        <img src="https://github.com/OmarDawoud4.png"   width="100px;" alt="" style="border-radius:50%"/>
+        <br />
+        <sub><b>Omar Dawood</b></sub>
+      </a>
+      <br />
+      <sub>ML Developer</sub>
+    </td>
+    <td align="center">
+      <a href="https://github.com/AbdAlRahman-Hesham">
+        <img src="https://github.com/AbdAlRahman-Hesham.png"   width="100px;" alt="" style="border-radius:50%"/>
+        <br />
+        <sub><b>AbdAlRahman Hesham</b></sub>
+      </a>
+      <br />
+      <sub>Backend Developer</sub>
+    </td>
+    <td align="center">
+      <a href="https://github.com/Ahmed0Sanad">
+        <img src="https://github.com/Ahmed0Sanad.png" width="100px;" alt="" 
+             style="border-radius:50%"
+             />
+        <br />
+        <sub><b>Ahmed Sanad</b></sub>
+      </a>
+      <br />
+      <sub>Backend Developer</sub>
+    </td>
+    <td align="center">
+      <a href="https://github.com/Abdallahjsx">
+        <img src="https://github.com/Abdallahjsx.png" width="100px;" alt="" 
+             style="border-radius:50%"
+             />
+        <br />
+        <sub><b>Abdallah</b></sub>
+      </a>
+      <br />
+      <sub>Frontend Developer</sub>
+    </td>
+  </tr>
+</table>
