@@ -1,6 +1,15 @@
 #  Spam Classifier
 
 A simple **machine learning web app** that classifies SMS messages as **Spam or Ham** using **Logistic Regression & TF-IDF**. Built with **Python, Flask, and Scikit-Learn**. 
+
+---
+## 📓 Google Colab Notebook
+
+This repository contains a Google Colab notebook that you can open and run directly in your browser.
+
+[![Open in Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/drive/1nnFDMksB7WwIJzj9pcn6aWtsbokjNcjA?usp=sharing#scrollTo=9t0dbTdAP-xW)
+
+
 ---
 ## Features  
 - Text preprocessing & TF-IDF vectorization  
@@ -28,6 +37,7 @@ cd Logistic
 ### **Train The Model**  
 ```bash
 python train_model.py
+python train_spam_models.py
 ```
 ### **Run the Flask App**
 ```bash
